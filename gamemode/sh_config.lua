@@ -193,3 +193,8 @@ VICTORY_SOUNDS = {
 	"vo/announcer_victory.wav",
 	"vo/announcer_we_succeeded.wav"
 }
+
+-- //Alert Sounds: Added by Joel for extra information in the HUD.
+ALERT_SOUNDS = {
+	"hud/cstrike_alert.wav"
+}

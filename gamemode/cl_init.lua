@@ -75,7 +75,6 @@ function Initialize()
 	})
 end
 hook.Add("Initialize", "PH_Initialize", Initialize)
-concommand.Add("areyoumouned", function() local v = IsMounted('cstrike') print(v) end)
 
 -- Resets the player hull
 function ResetHull(um)
@@ -113,25 +112,37 @@ function SetHull(um)
 end
 usermessage.Hook("SetHull", SetHull)
 
--- Interface for CSTRIKE ALERT
 function AlertForCstrike()
+	-- CSTRIKE Notify
+	-- Notification panel
+	NotifyPanel = vgui.Create( "DNotify" )
+	NotifyPanel:SetPos( 250, 380 )
+	NotifyPanel:SetSize( 220, 303 )
+	surface.PlaySound("hud/cstrike_alert.wav")
+	NotifyPanel:SetLife(20)
 
-	local base = vgui.Create("DFrame")
-	local butt = vgui.Create("DButton")
-		base:SetPos( ScrW()/2 - 225 , ScrH()/2 - 100 )
-		base:SetSize(450, 200)
-		base:SetVisible( true )
-		base:SetTitle("Illegal Counter-Strike!")
-		base:SetDraggable(true)
-		base:ShowCloseButton(true)
-		base:MakePopup()
+	-- Gray background panel
+	local bg = vgui.Create( "DPanel", NotifyPanel )
+	bg:Dock( FILL )
+	bg:SetBackgroundColor( Color( 64, 64, 64 ) )
 
-		butt:SetParent( base )
-		butt:SetText( "Test" )
-		butt:Center()
-		butt:SetSize(150, 50)
-		butt.DoClick = function()
-			chat.AddText(Color(0,120,150), "[TUT] ", Color(255,255,255), "You pressed the button lol!")
-		end
+	-- Image of Dr. Kleiner ( parented to background panel )
+	local img = vgui.Create( "DImage", bg )
+	img:SetPos( 10, 10 )
+	img:SetSize( 200, 200 )
+	img:SetImage( "materials/css_alert_image.png" )
+
+	-- A yellow label message ( parented to background panel )
+	local lbl = vgui.Create( "DLabel", bg )
+	lbl:SetPos( 10, 185 )
+	lbl:SetSize( 200, 140 )
+	lbl:SetText( "We cannot detect a legal version of Counter-Strike Source. You will see red 'Error' signs around the map. Please purchase a legal version of the game from Steam." )
+	lbl:SetTextColor( Color( 255, 200, 0 ) )
+	lbl:SetFont( "MyFont" )
+	lbl:SetWrap(true)
+
+	-- Add the background panel to the notification
+	NotifyPanel:AddItem( bg )
 end
-usermessage.Hook("Openpls", AlertForCstrike)
+usermessage.Hook("PlayCStrikeAlert", AlertForCstrike)
+

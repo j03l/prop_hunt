@@ -26,10 +26,12 @@ USABLE_PROP_ENTITIES = {
 	"prop_physics_multiplayer"
 }
 
+CounterStrikeAlert = 0 // Global Check Counter
 
 -- Send the required resources to the client
 for _, taunt in pairs(HUNTER_TAUNTS) do resource.AddFile("sound/"..taunt) end
 for _, taunt in pairs(PROP_TAUNTS) do resource.AddFile("sound/"..taunt) end
+for _, alertsound in pairs(ALERT_SOUNDS) do resource.AddFile("sound/"..alertsound) end
 
 -- Called alot
 function GM:CheckPlayerDeathRoundEnd()
@@ -235,6 +237,14 @@ function PlayerSpawn(pl)
 	
 	pl:SetCollisionGroup(COLLISION_GROUP_PASSABLE_DOOR)
 
+	if pl:Team() != TEAM_UNASSIGNED then
+		if IsMounted('cstrike') == false then
+			umsg.Start("PlayCStrikeAlert", ply) // PLAY CSS ALERT
+			umsg.End() // End of alert.
+		end
+		CounterStrikeAlert = CounterStrikeAlert + 1
+	end
+
 end
 hook.Add("PlayerSpawn", "PH_PlayerSpawn", PlayerSpawn)
 
@@ -294,11 +304,4 @@ function GM:OnPreRoundStart(num)
 	UTIL_StripAllPlayers()
 	UTIL_SpawnAllPlayers()
 	UTIL_FreezeAllPlayers()
-end
-function GM:PlayerConnect(name, ip)
-	-- Popup window ALERT if CStrike isn't mounted properly.
-		if IsMounted('cstrike') then
-			umsg.Start("Openpls", ply) 
-			umsg.End()
-		end
 end
