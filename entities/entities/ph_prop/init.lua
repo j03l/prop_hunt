@@ -1,9 +1,6 @@
-//Thanks to Blasteh for gmod update the fix and nifnat for spectate fix!
-
 // Send required files to client
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
- 
  
 // Include needed files
 include("shared.lua")
@@ -14,8 +11,7 @@ function ENT:Initialize()
         self:SetModel("models/player/Kleiner.mdl")
         self.health = 100
 end
- 
- 
+
 // Called when we take damge
 function ENT:OnTakeDamage(dmg)
         local pl = self:GetOwner()
