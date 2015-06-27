@@ -61,8 +61,6 @@ function HUDPaint()
 	end
 end
 hook.Add("HUDPaint", "PH_HUDPaint", HUDPaint)
-
-
 -- Called immediately after starting the gamemode 
 function Initialize()
 	hullz = 80
@@ -77,7 +75,7 @@ function Initialize()
 	})
 end
 hook.Add("Initialize", "PH_Initialize", Initialize)
-
+concommand.Add("areyoumouned", function() local v = IsMounted('cstrike') print(v) end)
 
 -- Resets the player hull
 function ResetHull(um)
@@ -114,3 +112,26 @@ function SetHull(um)
 	LocalPlayer():SetHealth(new_health)
 end
 usermessage.Hook("SetHull", SetHull)
+
+-- Interface for CSTRIKE ALERT
+function AlertForCstrike()
+
+	local base = vgui.Create("DFrame")
+	local butt = vgui.Create("DButton")
+		base:SetPos( ScrW()/2 - 225 , ScrH()/2 - 100 )
+		base:SetSize(450, 200)
+		base:SetVisible( true )
+		base:SetTitle("Illegal Counter-Strike!")
+		base:SetDraggable(true)
+		base:ShowCloseButton(true)
+		base:MakePopup()
+
+		butt:SetParent( base )
+		butt:SetText( "Test" )
+		butt:Center()
+		butt:SetSize(150, 50)
+		butt.DoClick = function()
+			chat.AddText(Color(0,120,150), "[TUT] ", Color(255,255,255), "You pressed the button lol!")
+		end
+end
+usermessage.Hook("Openpls", AlertForCstrike)

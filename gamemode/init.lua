@@ -234,6 +234,7 @@ function PlayerSpawn(pl)
 	umsg.End()
 	
 	pl:SetCollisionGroup(COLLISION_GROUP_PASSABLE_DOOR)
+
 end
 hook.Add("PlayerSpawn", "PH_PlayerSpawn", PlayerSpawn)
 
@@ -293,4 +294,11 @@ function GM:OnPreRoundStart(num)
 	UTIL_StripAllPlayers()
 	UTIL_SpawnAllPlayers()
 	UTIL_FreezeAllPlayers()
+end
+function GM:PlayerConnect(name, ip)
+	-- Popup window ALERT if CStrike isn't mounted properly.
+		if IsMounted('cstrike') then
+			umsg.Start("Openpls", ply) 
+			umsg.End()
+		end
 end
